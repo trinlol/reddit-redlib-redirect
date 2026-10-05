@@ -45,19 +45,6 @@ Your userscript manager will open a confirmation page. Click **Install**.
 | Persona ID verification | `iframe[src*="withpersona.com"]`, `[id*="persona"]` |
 | Async age-gate loader | `shreddit-async-loader[bundlename*="age_gate"]` |
 
-## How It Works
-
-```mermaid
-flowchart LR
-    A["Visit reddit.com/r/..."] --> B["MutationObserver\nmonitors DOM"]
-    B --> C{"Gate\ndetected?"}
-    C -- No --> D["Normal\nbrowsing"]
-    C -- Yes --> E["Health-check\nRedlib instances"]
-    E --> F{"Reachable?"}
-    F -- Yes --> G["Redirect to\nredlib.catsarch.com/r/..."]
-    F -- No --> H["Try next\ninstance"]
-    H --> F
-```
 
 ## Redlib Instances
 
