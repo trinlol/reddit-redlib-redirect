@@ -2,7 +2,7 @@
 // @name         Reddit → Redlib Auto-Redirect on Age/NSFW Gate
 // @namespace    https://github.com/trinlol/reddit-redlib-redirect
 // @version      1.0
-// @description  Detects Reddit age-gate, NSFW login walls, and ID verification prompts — redirects to the same page on a Redlib instance
+// @description  Detects Reddit age-gate, NSFW login walls, and ID verification prompts - redirects to the same page on a Redlib instance
 // @author       trinlol
 // @match        https://www.reddit.com/*
 // @match        https://reddit.com/*

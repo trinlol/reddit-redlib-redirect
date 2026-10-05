@@ -1,15 +1,15 @@
-# Reddit → Redlib Auto-Redirect
+# Reddit to Redlib Auto-Redirect
 
 A Tampermonkey/Violentmonkey userscript that **automatically redirects you from Reddit to [Redlib](https://github.com/redlib-org/redlib)** when an age-gate, NSFW login wall, or ID verification prompt appears.
 
-No more handing your ID to Reddit or dodgy third-party verification services. The script detects the blocking popup, health-checks available Redlib instances, and sends you to the same page on a working instance — instantly and silently.
+No more handing your ID to Reddit or dodgy third-party verification services. The script detects the blocking popup, health-checks available Redlib instances, and sends you to the same page on a working instance. Instantly and silently.
 
 ## The Problem
 
 Reddit now enforces age verification for NSFW content in certain regions (UK, parts of EU) via a third-party service called **Persona**, which requires uploading a government-issued ID or facial scan. Even if you're logged in and over 18, Reddit may:
 
 - Show an **"Add your birthday"** popup that loops endlessly
-- Display a **"Mature Content — Log in to confirm your age"** modal
+- Display a **"Mature Content"** modal asking you to log in
 - Demand **government ID verification** through Persona
 - **Withhold the actual page content** server-side (so simply hiding the popup leaves a blank page)
 
@@ -29,7 +29,7 @@ Your userscript manager will open a confirmation page. Click **Install**.
 
 ### Manual Install
 
-1. Open your userscript manager dashboard (click the extension icon → **Dashboard**)
+1. Open your userscript manager dashboard (click the extension icon > **Dashboard**)
 2. Create a new script
 3. Paste the contents of [`reddit-redlib-redirect.user.js`](reddit-redlib-redirect.user.js)
 4. Save (`Ctrl+S`)
@@ -47,26 +47,16 @@ Your userscript manager will open a confirmation page. Click **Install**.
 
 ## How It Works
 
-```
-You visit www.reddit.com/r/example/comments/abc123/post_title
-         │
-         ▼
-  Script monitors DOM via MutationObserver
-         │
-         ▼
-  Age-gate / NSFW wall detected?
-         │
-    NO ──┤── YES
-    │         │
-    │         ▼
-    │    Health-check Redlib instances (HEAD request, 3s timeout)
-    │         │
-    │         ▼
-    │    Redirect to first healthy instance:
-    │    redlib.catsarch.com/r/example/comments/abc123/post_title
-    │
-    ▼
-  Normal Reddit browsing continues
+```mermaid
+flowchart TD
+    A["You visit reddit.com/r/.../comments/..."] --> B["Script monitors DOM with MutationObserver"]
+    B --> C{"Age-gate or\nNSFW wall detected?"}
+    C -- No --> D["Normal Reddit\nbrowsing continues"]
+    C -- Yes --> E["Health-check Redlib instances\n(HEAD request, 3s timeout)"]
+    E --> F{"Instance\nreachable?"}
+    F -- Yes --> G["Redirect to healthy instance\nredlib.catsarch.com/r/.../comments/..."]
+    F -- No --> H["Try next instance"]
+    H --> F
 ```
 
 ## Redlib Instances
@@ -80,12 +70,12 @@ The script ships with these instances (in priority order):
 | `red.artemislena.eu` | 🇩🇪 DE |
 | `redlib.r4fo.com` | 🇩🇪 DE |
 
-Before redirecting, the script pings each instance to make sure it's online. If your preferred instance is down, it automatically falls through to the next.
+Before redirecting, the script pings each instance to make sure it's online. If your preferred instance is down, it falls through to the next one.
 
 ### Set a Preferred Instance
 
 1. Right-click the **Tampermonkey icon** in your browser toolbar
-2. Hover over **Reddit → Redlib Auto-Redirect**
+2. Hover over **Reddit to Redlib Auto-Redirect**
 3. Click **⚙️ Set preferred Redlib instance**
 4. Enter the URL (e.g. `https://redlib.catsarch.com`) or leave blank for auto-selection
 
@@ -100,7 +90,7 @@ Because Reddit's server **doesn't send the page content** to your browser when a
 No. It only triggers when a blocking gate or verification popup is detected. Normal Reddit browsing is unaffected.
 
 **Q: Can I use this with a VPN instead?**
-Yes! If you use a VPN to a non-UK/EU country, Reddit won't show these gates at all, making this script unnecessary. This script is for people who don't want to use a VPN.
+Yeah, if you use a VPN to a non-UK/EU country, Reddit won't show these gates at all, making this script unnecessary. This script is for people who don't want to run a VPN.
 
 **Q: What is Redlib?**
 [Redlib](https://github.com/redlib-org/redlib) is an open-source, privacy-respecting frontend for Reddit. It doesn't require an account, doesn't track you, and serves content through its own servers.
