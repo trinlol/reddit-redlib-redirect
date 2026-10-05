@@ -48,14 +48,14 @@ Your userscript manager will open a confirmation page. Click **Install**.
 ## How It Works
 
 ```mermaid
-flowchart TD
-    A["You visit reddit.com/r/.../comments/..."] --> B["Script monitors DOM with MutationObserver"]
-    B --> C{"Age-gate or\nNSFW wall detected?"}
-    C -- No --> D["Normal Reddit\nbrowsing continues"]
-    C -- Yes --> E["Health-check Redlib instances\n(HEAD request, 3s timeout)"]
-    E --> F{"Instance\nreachable?"}
-    F -- Yes --> G["Redirect to healthy instance\nredlib.catsarch.com/r/.../comments/..."]
-    F -- No --> H["Try next instance"]
+flowchart LR
+    A["Visit reddit.com/r/..."] --> B["MutationObserver\nmonitors DOM"]
+    B --> C{"Gate\ndetected?"}
+    C -- No --> D["Normal\nbrowsing"]
+    C -- Yes --> E["Health-check\nRedlib instances"]
+    E --> F{"Reachable?"}
+    F -- Yes --> G["Redirect to\nredlib.catsarch.com/r/..."]
+    F -- No --> H["Try next\ninstance"]
     H --> F
 ```
 
