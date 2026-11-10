@@ -64,6 +64,9 @@
         '[id*="blocking_xpromo_nsfw"]',
         '[id*="xpromo-nsfw-blocking"]',
 
+        // Standard login modal
+        '[id*="desktop-dynamic-upsell-dialog"]',
+
         // NSFW channel confirmation
         'rs-nsfw-channel-confirmation',
 
